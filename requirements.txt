@@ -16,3 +16,11 @@ pyflakes==3.3.2
 pylint==3.3.7
 tomlkit==0.13.2
 streamlit==1.45.0
+streamlit
+pandas
+numpy
+scikit-learn
+prophet
+transformers
+pytesseract
+pdf2image
