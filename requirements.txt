@@ -17,8 +17,8 @@ pylint==3.3.7
 tomlkit==0.13.2
 streamlit==1.45.0
 streamlit
-pandas
-numpy
+pandas==2.2.3
+numpy==2.2.5
 scikit-learn
 prophet
 transformers
