@@ -23,3 +23,6 @@ prophet
 transformers
 pytesseract
 pdf2image
+sklearn
+regex
+matplotlib
