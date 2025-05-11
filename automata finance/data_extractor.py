@@ -20,7 +20,7 @@ def extract_image_text(image_path):
 def process_financial_data():
     """Gabungkan data dari berbagai sumber"""
     # 1. Load data Excel
-    excel_data = pd.read_excel('keuangan.xlsx')
+    excel_data = pd.read_excel('data/keuangan.xlsx')
     
     # 2. Proses gambar/PDF
     raw_data = []

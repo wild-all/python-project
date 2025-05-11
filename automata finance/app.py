@@ -3,6 +3,10 @@ import streamlit as st
 import sqlite3
 import pandas as pd  # <- ini sumber 'pd'
 import numpy as np
+from data_extractor import process_financial_data
+from data_processing import clean_data
+from anomaly_detection import detect_anomalies
+from forecasting import make_forecast
 
 # Inisialisasi dataframe
 df = pd.DataFrame()  # <- ini sumber 'df'
