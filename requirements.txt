@@ -15,7 +15,7 @@ pycodestyle==2.13.0
 pyflakes==3.3.2
 pylint==3.3.7
 tomlkit==0.13.2
-streamlit==1.45.0
+streamlit==1.44.0
 pandas==2.2.3
 numpy==2.2.5
 scikit-learn
