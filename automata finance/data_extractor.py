@@ -1,12 +1,9 @@
-# File: data_extractor.py
+import os
 import pandas as pd
 import pytesseract
 from pdf2image import convert_from_path
 import glob
 import re  # untuk regex
-
-# Inisialisasi dataframe
-df = pd.DataFrame()  # <- ini sumber 'df'
 
 def extract_image_text(image_path):
     """Ekstrak teks dari gambar/PDF menggunakan OCR"""
@@ -19,15 +16,18 @@ def extract_image_text(image_path):
 
 def process_financial_data():
     """Gabungkan data dari berbagai sumber"""
-    # 1. Load data Excel
-    excel_data = pd.read_excel('data/keuangan.xlsx')
-    
-    # 2. Proses gambar/PDF
+    # Dapatkan path ke direktori saat ini (folder dimana file script ini berada)
+    current_dir = os.path.dirname(__file__)
+    # Bangun path lengkap ke file Excel 'keuangan.xlsx' di subfolder 'data'
+    excel_path = os.path.join(current_dir, 'data', 'keuangan.xlsx')
+    # Load data Excel menggunakan path yang benar
+    excel_data = pd.read_excel(excel_path)
+
+    # Proses gambar/PDF dalam folder 'invoices' di direktori saat ini
     raw_data = []
-    for file in glob.glob('invoices/*'):  # Cari semua file di folder invoices
+    invoices_dir = os.path.join(current_dir, 'invoices')
+    for file in glob.glob(os.path.join(invoices_dir, '*')):
         text = extract_image_text(file)
-        
-        # Contoh parsing sederhana (bisa dikembangkan pakai regex/NLP)
         try:
             amount = float(re.search(r'Total\s*:\s*(\d+\.\d+)', text).group(1))
             date = re.search(r'\d{2}-\d{2}-\d{4}', text).group()
@@ -37,15 +37,10 @@ def process_financial_data():
         except ValueError:
             print(f"Format jumlah tidak valid di file: {file}")
 
-    # Gabungkan semua data
     raw_df = pd.DataFrame(raw_data)
-    
-    # Pastikan kolom 'date' diubah menjadi datetime
     raw_df['date'] = pd.to_datetime(raw_df['date'], format='%d-%m-%Y', errors='coerce')
-    
-    # Gabungkan dengan data Excel
-    combined_df = pd.concat([excel_data, raw_df], ignore_index=True)
-    
-    return combined_df
 
-df = process_financial_data()
+    # Gabungkan data Excel dan hasil ekstrak dari gambar/PDF
+    combined_df = pd.concat([excel_data, raw_df], ignore_index=True)
+
+    return combined_df
